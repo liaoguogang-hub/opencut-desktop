@@ -1,0 +1,44 @@
+appId: app.opencut.desktop
+productName: OpenCut Desktop
+copyright: Copyright © 2026 OpenCut
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - electron/**/*
+  - .next/**/*
+  - public/**/*
+  - src/**/*
+  - next.config.ts
+  - next-env.d.ts
+  - package.json
+  - "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}"
+  - "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}"
+  - "!**/node_modules/*.d.ts"
+  - "!**/node_modules/.bin"
+
+asarUnpack:
+  - "**/*.node"
+  # Next.js standalone server.js reads its sibling node_modules at runtime;
+  # these must live on disk (not inside the asar blob) for Node to resolve them.
+  - ".next/standalone/**/*"
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: "${productName}-Setup-${version}.${ext}"
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: OpenCut Desktop
+  uninstallDisplayName: OpenCut Desktop
+  deleteAppDataOnUninstall: true
+
+publish: null

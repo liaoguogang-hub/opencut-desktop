@@ -1,0 +1,21 @@
+# Turborepo
+.turbo
+
+# Env vars
+.env*
+!.env.example
+
+.next/
+
+.font-cache/
+
+next-env.d.ts
+
+*.tsbuildinfo
+# electron-builder output (NSIS EXE + win-unpacked, ~2GB)
+release/
+
+# local AI model weights (fork desktop 用 Whisper HF + MiniMax API,
+# NLLB weights 870MB 在 c8015bc 已 untrack,运行时不要重新 commit)
+# scripts/download-models.sh 仍可下 NLLB 备用,但不要 git add
+apps/web/public/models/Xenova/
