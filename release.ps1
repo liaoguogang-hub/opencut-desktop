@@ -130,6 +130,9 @@ if (-not $SkipBuild) {
     throw "找不到根 next bin: $nextBin,先在根跑 npm install 或 bun install --linker=hoisted"
   }
   Set-Location apps/web
+  # OPENCUT_DESKTOP=1 触发 next.config.ts 里 images.unoptimized = true,
+  # 绕开 Electron embedded Node ABI 与 sharp 原生模块不匹配的问题。
+  $env:OPENCUT_DESKTOP = "1"
   node $nextBin build
   if ($LASTEXITCODE -ne 0) {
     Set-Location $PSScriptRoot

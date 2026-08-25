@@ -9,7 +9,17 @@ const nextConfig: NextConfig = {
 	reactStrictMode: true,
 	productionBrowserSourceMaps: true,
 	output: "standalone",
+	// Electron desktop opens the dev server at 127.0.0.1 while HMR
+	// assets are normally scoped to "localhost". Allow both so the
+	// Turbopack HMR websocket is not blocked by Next 16's same-origin
+	// guard. Production builds ignore this list.
+	allowedDevOrigins: ["127.0.0.1", "localhost"],
+	// The desktop build runs the Next standalone server on Electron's
+	// embedded Node.js, whose NODE_MODULE_VERSION does not match the
+	// `sharp` binary that ships with the standalone tree. Disabling
+	// image optimization lets us skip the native module entirely.
 	images: {
+		unoptimized: process.env.OPENCUT_DESKTOP === "1",
 		remotePatterns: [
 			{
 				protocol: "https",

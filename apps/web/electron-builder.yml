@@ -7,7 +7,9 @@ directories:
 
 files:
   - electron/**/*
-  - .next/**/*
+  - .next/static/**/*
+  - .next/types/**/*
+  - .next/BUILD_ID
   - public/**/*
   - src/**/*
   - next.config.ts
@@ -20,9 +22,16 @@ files:
 
 asarUnpack:
   - "**/*.node"
-  # Next.js standalone server.js reads its sibling node_modules at runtime;
-  # these must live on disk (not inside the asar blob) for Node to resolve them.
-  - ".next/standalone/**/*"
+
+# The Next.js standalone output (.next/standalone) carries its own runtime
+# node_modules tree. electron-builder prunes node_modules from the asar by
+# default, so we copy the whole directory out-of-band to resources/. The
+# app then resolves server.js via process.resourcesPath/.next/standalone.
+extraResources:
+  - from: ".next/standalone"
+    to: ".next/standalone"
+    filter:
+      - "**/*"
 
 win:
   target:
