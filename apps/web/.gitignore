@@ -19,3 +19,7 @@ release/
 # NLLB weights 870MB 在 c8015bc 已 untrack,运行时不要重新 commit)
 # scripts/download-models.sh 仍可下 NLLB 备用,但不要 git add
 apps/web/public/models/Xenova/
+
+# electron-builder output (NSIS EXE + win-unpacked ~2GB)
+release/
+
