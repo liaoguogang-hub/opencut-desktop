@@ -239,8 +239,11 @@ Write-Host "  ✓ tag pushed" -ForegroundColor Green
 # ===== 7. gh release create + 挂 EXE =====
 Write-Host ""
 Write-Host "[7/7] gh release create ${Tag} + 挂 EXE..." -ForegroundColor Cyan
-$existingRelease = gh release view $Tag 2>&1 | Out-String
-$existingOk = $LASTEXITCODE -eq 0
+# 关键:gh exit code 先 capture 再 pipe,否则 Out-String 把 $LASTEXITCODE 改成 0
+# → $existingOk 永远 true → 走 '已存在 upload' 分支 upload 到不存在的 release → fail
+$ghExit = 0
+$existingRelease = (gh release view $Tag 2>&1; $ghExit = $LASTEXITCODE) | Out-String
+$existingOk = $ghExit -eq 0
 
 $assets = @($exe)
 if (Test-Path $blockmap) {
