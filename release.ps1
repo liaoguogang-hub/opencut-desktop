@@ -1,4 +1,4 @@
-# opencut-desktop 一键发版脚本
+﻿# opencut-desktop 一键发版脚本
 #
 # 用法:
 #   .\release.ps1                                # 读 package.json version, build 自增
