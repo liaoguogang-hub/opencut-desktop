@@ -132,10 +132,10 @@ if (-not $SkipBuild) {
   Set-Location apps/web
   node $nextBin build
   if ($LASTEXITCODE -ne 0) {
-    Set-Location ..
+    Set-Location $PSScriptRoot
     throw "next build 失败,看上面 ts 错"
   }
-  Set-Location ..
+  Set-Location $PSScriptRoot
 
   # ===== 3. electron-builder 打 NSIS EXE =====
   Write-Host ""
@@ -147,10 +147,10 @@ if (-not $SkipBuild) {
   Set-Location apps/web
   node $ebBin --win --x64
   if ($LASTEXITCODE -ne 0) {
-    Set-Location ..
+    Set-Location $PSScriptRoot
     throw "electron-builder 失败"
   }
-  Set-Location ..
+  Set-Location $PSScriptRoot
 } else {
   Write-Host ""
   Write-Host "[2-3/7] 跳过 build (-SkipBuild)" -ForegroundColor Yellow
