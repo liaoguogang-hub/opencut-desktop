@@ -132,7 +132,10 @@ if (-not $SkipBuild) {
   Set-Location apps/web
   # OPENCUT_DESKTOP=1 触发 next.config.ts 里 images.unoptimized = true,
   # 绕开 Electron embedded Node ABI 与 sharp 原生模块不匹配的问题。
+  # NEXT_PUBLIC_OPENCUT_DESKTOP=1 让 client 组件(Hero 等)知道这是 desktop fork,
+  # 避免用上游 marketing 站的固定 dark 背景图。
   $env:OPENCUT_DESKTOP = "1"
+  $env:NEXT_PUBLIC_OPENCUT_DESKTOP = "1"
   node $nextBin build
   if ($LASTEXITCODE -ne 0) {
     Set-Location $PSScriptRoot
