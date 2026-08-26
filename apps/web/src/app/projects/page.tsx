@@ -509,10 +509,22 @@ function NewProjectButton() {
 	const router = useRouter();
 
 	const handleCreateProject = async () => {
-		const projectId = await editor.project.createNewProject({
-			name: "New project",
-		});
-		router.push(`/editor/${projectId}`);
+		try {
+			const projectId = await editor.project.createNewProject({
+				name: "New project",
+			});
+			router.push(`/editor/${projectId}`);
+		} catch (error) {
+			// Without this catch an IndexedDB failure (quota, blocked storage,
+			// or `chrome:IndexedDB` permission revoke in the Electron desktop
+			// shell) used to silently swallow the promise rejection — the
+			// button would feel unresponsive and the user had no idea why.
+			console.error("[projects] createNewProject failed", error);
+			toast.error("Failed to create project", {
+				description:
+					error instanceof Error ? error.message : "Please try again",
+			});
+		}
 	};
 
 	return (
