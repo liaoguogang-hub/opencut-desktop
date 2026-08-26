@@ -47,7 +47,12 @@ export default function RootLayout({
 					// variant renders with too little contrast to be readable.
 					// Force light mode on the desktop fork; the user can still
 					// flip to dark via the toggle once the page is visible.
+					// `enableSystem` is set to false so the system preference
+					// (which Electron may report as dark by default) doesn't
+					// override the explicit defaultTheme.
 					defaultTheme={process.env.OPENCUT_DESKTOP === "1" ? "light" : "system"}
+					enableSystem={process.env.OPENCUT_DESKTOP !== "1"}
+					forcedTheme={process.env.OPENCUT_DESKTOP === "1" ? "light" : undefined}
 					disableTransitionOnChange={true}
 				>
 					<TooltipProvider>
