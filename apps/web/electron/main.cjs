@@ -121,6 +121,11 @@ function startNextServer() {
 				PORT: String(PORT),
 				NODE_ENV: "production",
 				ELECTRON_RUN_AS_NODE: "1",
+				// Tell apps/web/src/env/web.ts to relax required env vars so the
+				// server boots even when Postgres / Redis / Freesound credentials
+				// are not configured. The user can opt back into strict validation
+				// by unsetting this in the packaged build.
+				OPENCUT_DESKTOP: "1",
 			},
 			stdio: ["ignore", "pipe", "pipe"],
 		});
