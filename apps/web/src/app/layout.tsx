@@ -42,7 +42,12 @@ export default function RootLayout({
 			<body className={`${siteFont.className} font-sans antialiased`}>
 				<ThemeProvider
 					attribute="class"
-					defaultTheme="system"
+					// The Electron desktop shell can't reliably read the host
+					// OS theme, and on a small window the default OpenCut dark
+					// variant renders with too little contrast to be readable.
+					// Force light mode on the desktop fork; the user can still
+					// flip to dark via the toggle once the page is visible.
+					defaultTheme={process.env.OPENCUT_DESKTOP === "1" ? "light" : "system"}
 					disableTransitionOnChange={true}
 				>
 					<TooltipProvider>
